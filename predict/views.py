@@ -22,6 +22,8 @@ from WEB_APP.settings import MEDIA_DIR
 from django.core.files.base import ContentFile
 from django.core.files import File
 from django.http.response import StreamingHttpResponse
+from django.http import HttpResponse
+from django.http import JsonResponse
 import threading
 import gzip
 from threading import Thread, Lock
@@ -145,18 +147,27 @@ def formpage(request):
     return render(request,'predict.html',context = context_dict)
 
 
-def android_predict(image):
-    print(type(image))
-    model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
-    model = load_model(model_path, compile = False)
-    image1 = image.copy()
-    print('name of image to be predicted is : ' + str(name_image))
-    prediction = model.predict(prepare(image1))
-    prediction = prediction[0]
-    prediction = prediction[0]
-    if prediction>=0.5 :
-        prediction=1
-    else:
-        prediction=0
-    x1=str(prediction)
-    print('x1 is : ' + x1)
+def android_predict(request):
+    if request.method == 'POST' :
+        print('method is POST')
+        print(request.body)
+        # print(type(image))
+        # model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
+        # model = load_model(model_path, compile = False)
+        # image1 = image.copy()
+        # print('name of image to be predicted is : ' + str(name_image))
+        # prediction = model.predict(prepare(image1))
+        # prediction = prediction[0]
+        # prediction = prediction[0]
+        # if prediction>=0.5 :
+        #     prediction=1
+        # else:
+        #     prediction=0
+        # x1=str(prediction)
+        # print('x1 is : ' + x1)
+        context_dict = {'statusCode' : 0, 'statusMessage' : 'working'}
+    else :
+        print('method is GET')
+        context_dict = {'statusCode' : 1, 'statusMessage' : 'request type is not post'}
+    print(context_dict)
+    return JsonResponse(context_dict)
