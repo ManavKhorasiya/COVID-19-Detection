@@ -143,3 +143,20 @@ def formpage(request):
         context_dict = {'form' : image_form, 'temp_form' : temp_form}
     print(context_dict)
     return render(request,'predict.html',context = context_dict)
+
+
+def android_predict(image):
+    print(type(image))
+    model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
+    model = load_model(model_path, compile = False)
+    image1 = image.copy()
+    print('name of image to be predicted is : ' + str(name_image))
+    prediction = model.predict(prepare(image1))
+    prediction = prediction[0]
+    prediction = prediction[0]
+    if prediction>=0.5 :
+        prediction=1
+    else:
+        prediction=0
+    x1=str(prediction)
+    print('x1 is : ' + x1)
