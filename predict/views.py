@@ -19,6 +19,7 @@ import datetime
 import time
 import json
 import base64
+import re
 from WEB_APP.settings import BASE_DIR
 from WEB_APP.settings import MEDIA_DIR
 from django.core.files.base import ContentFile
@@ -162,6 +163,9 @@ def android_predict(request):
         print('name is : ' + name_image)
         b64_image = decoded.split('&')[0].split('=')[1]
         print('Base64 image is : ' + b64_image)
+        missing_padding = len(b64_image)%4
+        if missing_padding : 
+            b64_image += '='*(4-missing_padding)
         image = PIL.Image.open(io.BytesIO(base64.b64decode(b64_image)))
         print(type(image))
         model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
