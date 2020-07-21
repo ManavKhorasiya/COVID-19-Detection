@@ -18,7 +18,7 @@ import os
 import datetime
 import time
 import json
-import ast
+import base64
 from WEB_APP.settings import BASE_DIR
 from WEB_APP.settings import MEDIA_DIR
 from django.core.files.base import ContentFile
@@ -161,21 +161,22 @@ def android_predict(request):
         print('name is : ' + image_name)
         b64_image = decoded.split('&')[0].split('=')[1]
         print('Base64 image is : ' + b64_image)
-        # print(type(image))
-        # model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
-        # model = load_model(model_path, compile = False)
-        # image1 = image.copy()
-        # print('name of image to be predicted is : ' + str(name_image))
-        # prediction = model.predict(prepare(image1))
-        # prediction = prediction[0]
-        # prediction = prediction[0]
-        # if prediction>=0.5 :
-        #     prediction=1
-        # else:
-        #     prediction=0
-        # x1=str(prediction)
-        # print('x1 is : ' + x1)
-        context_dict = {'statusCode' : 0, 'statusMessage' : 'working'}
+        image = PIL.Image.open(BytesIO(base64.b64decode(b64_image)))
+        print(type(image))
+        model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
+        model = load_model(model_path, compile = False)
+        image1 = image.copy()
+        print('name of image to be predicted is : ' + str(name_image))
+        prediction = model.predict(prepare(image1))
+        prediction = prediction[0]
+        prediction = prediction[0]
+        if prediction>=0.5 :
+            prediction=1
+        else:
+            prediction=0
+        x1=str(prediction)
+        print('x1 is : ' + x1)
+        context_dict = {'statusCode' : 0, 'statusMessage' : 'working', 'prediction' : x1}
     else :
         print('method is GET')
         context_dict = {'statusCode' : 1, 'statusMessage' : 'request type is not post'}
