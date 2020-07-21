@@ -24,6 +24,7 @@ from django.core.files import File
 from django.http.response import StreamingHttpResponse
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 import threading
 import gzip
 from threading import Thread, Lock
@@ -147,6 +148,7 @@ def formpage(request):
     return render(request,'predict.html',context = context_dict)
 
 
+@csrf_exempt
 def android_predict(request):
     print('Request method is : ' + request.method)
     if request.method == 'POST' :
