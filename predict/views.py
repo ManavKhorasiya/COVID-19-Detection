@@ -20,6 +20,8 @@ import time
 import json
 import base64
 import re
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 from WEB_APP.settings import BASE_DIR
 from WEB_APP.settings import MEDIA_DIR
 from django.core.files.base import ContentFile
@@ -167,22 +169,12 @@ def android_predict(request):
         if missing_padding : 
             b64_image += '='*(4-missing_padding)
         print('Modified Base64 image is : ' + b64_image)
-        # image = PIL.Image.open(io.BytesIO(base64.b64decode(b64_image)))
-        image = PIL.Image.open(io.BytesIO(b64_image))
-        print(type(image))
-        model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
-        model = load_model(model_path, compile = False)
-        image1 = image.copy()
-        print('name of image to be predicted is : ' + str(name_image))
-        prediction = model.predict(prepare(image1))
-        prediction = prediction[0]
-        prediction = prediction[0]
-        if prediction>=0.5 :
-            prediction=1
-        else:
-            prediction=0
-        x1=str(prediction)
-        print('x1 is : ' + x1)
+        image = PIL.Image.open(io.BytesIO(base64.b64decode(b64_image)))
+        target_image = image.resize((500,500),PIL.Image.ANTIALIAS)
+        print(type(target_image))
+        image_array = np.array(target_image)
+        image_file, x1 = predict_image(image_array,name_image)
+        # image = PIL.Image.open(io.BytesIO(b64_image))
         context_dict = {'statusCode' : 0, 'statusMessage' : 'working', 'prediction' : x1}
     else :
         print('method is GET')
