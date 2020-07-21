@@ -180,4 +180,4 @@ def android_predict(request):
         print('method is GET')
         context_dict = {'statusCode' : 1, 'statusMessage' : 'request type is not post'}
     print(context_dict)
-    return JsonResponse(context_dict)
+    return JsonResponse(context_dict, safe=False)
