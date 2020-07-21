@@ -148,9 +148,10 @@ def formpage(request):
 
 
 def android_predict(request):
+    print('Request method is : ' + request.method)
     if request.method == 'POST' :
         print('method is POST')
-        print(request.body)
+        print('Request body is ' + request.body)
         # print(type(image))
         # model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
         # model = load_model(model_path, compile = False)
