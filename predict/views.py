@@ -155,11 +155,12 @@ def android_predict(request):
     print('Request method is : ' + request.method)
     if request.method == 'POST' :
         print('method is POST')
-        print(request.body)
         # print('Image name is : ' + str(json.loads(request.body.decode('utf-8'))))
         decoded = request.body.decode("UTF-8")
-        print(decoded)
-        print(decoded.name)
+        image_name = decoded.split('&')[1].split('=')[1]
+        print('name is : ' + image_name)
+        b64_image = decoded.split('&')[0].split('=')[1]
+        print('Base64 image is : ' + b64_image)
         # print(type(image))
         # model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
         # model = load_model(model_path, compile = False)
