@@ -169,6 +169,7 @@ def android_predict(request):
         if missing_padding : 
             b64_image += '='*(4-missing_padding)
         print('Modified Base64 image is : ' + b64_image)
+        print('New length is : ' + str(len(b64_image)))
         image = PIL.Image.open(io.BytesIO(base64.b64decode(b64_image)))
         target_image = image.resize((500,500),PIL.Image.ANTIALIAS)
         print(type(target_image))
