@@ -17,6 +17,7 @@ from flask import jsonify
 import os
 import datetime
 import time
+import json
 from WEB_APP.settings import BASE_DIR
 from WEB_APP.settings import MEDIA_DIR
 from django.core.files.base import ContentFile
@@ -153,7 +154,7 @@ def android_predict(request):
     print('Request method is : ' + request.method)
     if request.method == 'POST' :
         print('method is POST')
-        print('Image name is : ' + str(request.body.name))
+        print('Image name is : ' + str(json.loads(request.body)))
         # print(type(image))
         # model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
         # model = load_model(model_path, compile = False)
