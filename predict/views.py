@@ -157,6 +157,7 @@ def android_predict(request):
         print('method is POST')
         # print('Image name is : ' + str(json.loads(request.body.decode('utf-8'))))
         decoded = request.body.decode("UTF-8")
+        print(decoded)
         name_image = decoded.split('&')[1].split('=')[1]
         print('name is : ' + name_image)
         b64_image = decoded.split('&')[0].split('=')[1]
