@@ -18,6 +18,7 @@ import os
 import datetime
 import time
 import json
+import ast
 from WEB_APP.settings import BASE_DIR
 from WEB_APP.settings import MEDIA_DIR
 from django.core.files.base import ContentFile
@@ -154,7 +155,10 @@ def android_predict(request):
     print('Request method is : ' + request.method)
     if request.method == 'POST' :
         print('method is POST')
-        print('Image name is : ' + str(json.loads(request.body)))
+        print(request.body)
+        # print('Image name is : ' + str(json.loads(request.body.decode('utf-8'))))
+        decoded = request.body.decode("UTF-8")
+        print(decoded)
         # print(type(image))
         # model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
         # model = load_model(model_path, compile = False)
