@@ -158,6 +158,7 @@ def android_predict(request):
     print('Request method is : ' + request.method)
     if request.method == 'POST' :
         print('method is POST')
+        print('Body is : ' + str(request.body))
         decoded = request.body.decode("UTF-8")
         print(decoded)
         name_image = decoded.split('&')[1].split('=')[1]
@@ -170,8 +171,7 @@ def android_predict(request):
             b64_image += '='*(4-missing_padding)
         print('Modified Base64 image is : ' + b64_image)
         print('New length is : ' + str(len(b64_image)))
-        new_b64 = b64_image
-        image = PIL.Image.open(io.BytesIO(base64.b64decode(new_b64)))
+        image = PIL.Image.open(io.BytesIO(base64.b64decode(b64_image)))
         target_image = image.resize((500,500),PIL.Image.ANTIALIAS)
         print(type(target_image))
         image_array = np.array(target_image)
