@@ -156,7 +156,6 @@ def android_predict(request):
     print('Request method is : ' + request.method)
     if request.method == 'POST' :
         print('method is POST')
-        # print('Image name is : ' + str(json.loads(request.body.decode('utf-8'))))
         decoded = request.body.decode("UTF-8")
         print(decoded)
         name_image = decoded.split('&')[1].split('=')[1]
@@ -164,9 +163,12 @@ def android_predict(request):
         b64_image = decoded.split('&')[0].split('=')[1]
         print('Base64 image is : ' + b64_image)
         missing_padding = len(b64_image)%4
+        print('Length is : ' + str(len(b64_image)))
         if missing_padding : 
             b64_image += '='*(4-missing_padding)
-        image = PIL.Image.open(io.BytesIO(base64.b64decode(b64_image)))
+        print('Modified Base64 image is : ' + b64_image)
+        # image = PIL.Image.open(io.BytesIO(base64.b64decode(b64_image)))
+        image = PIL.Image.open(io.BytesIO(b64_image))
         print(type(image))
         model_path = os.path.join(BASE_DIR, 'covid19 densenet02.h5')
         model = load_model(model_path, compile = False)
