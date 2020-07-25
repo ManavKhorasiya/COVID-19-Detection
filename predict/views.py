@@ -152,9 +152,9 @@ def formpage(request):
     print(context_dict)
     return render(request,'predict.html',context = context_dict)
 
-
+//This API is used to predict from photo  uploaded from android device. A base64 photo is sent from device and seerver responds with prediction
 @csrf_exempt
-def android_predict(request):
+def android_predict(request):                                       
     print('Request method is : ' + request.method)
     if request.method == 'POST' :
         print('method is POST')
