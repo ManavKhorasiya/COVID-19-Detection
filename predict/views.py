@@ -19,6 +19,7 @@ import datetime
 import time
 import json
 import base64
+from urllib.parse import unquote
 import re
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
@@ -159,9 +160,9 @@ def android_predict(request):
         print('Request method is : ' + request.method)
         if request.method == 'POST' :
             print('method is POST')
-            # print('Body is : ' + str(request.body))
+            print('Body is : ' + str(request.body))
             # decoded = request.body.decode("UTF-8")
-            decoded =  base64.b64decode(request.body)
+            decoded =  unquote(str(request.body))
             print(decoded)
             name_image = decoded.split('&')[1].split('=')[1]
             print('name is : ' + name_image)
@@ -185,7 +186,8 @@ def android_predict(request):
             context_dict = {'statusCode' : 1, 'statusMessage' : 'request type is not post'}
         print(context_dict)
         return JsonResponse(context_dict, safe=False)
-    except : 
+    except Exception as e: 
+        print(e)
         context_dict = {'statusCode' : 1, 'statusMessage' : 'exception occurred'}
         print(context_dict)
         return JsonResponse(context_dict, safe=False)
