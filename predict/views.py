@@ -159,7 +159,7 @@ def android_predict(request):
         print('Request method is : ' + request.method)
         if request.method == 'POST' :
             print('method is POST')
-            print('Body is : ' + str(request.body))
+            # print('Body is : ' + str(request.body))
             # decoded = request.body.decode("UTF-8")
             decoded =  base64.b64decode(request.body)
             print(decoded)
