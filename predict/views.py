@@ -162,7 +162,7 @@ def android_predict(request):
             print('method is POST')
             print('Body is : ' + str(request.body))
             # decoded = request.body.decode("UTF-8")
-            decoded =  unquote(str(request.body))
+            decoded =  unquote(str(request.body))                   #decode URI component because Android sends using URI Encode
             print(decoded)
             name_image = decoded.split('&')[1].split('=')[1]
             print('name is : ' + name_image)
