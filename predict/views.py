@@ -160,23 +160,22 @@ def android_predict(request):
         print('Request method is : ' + request.method)
         if request.method == 'POST' :
             print('method is POST')
-            print('Body is : ' + str(request.body))
-            # decoded = request.body.decode("UTF-8")
+            # print('Body is : ' + str(request.body))
             decoded =  unquote(str(request.body))                   #decode URI component because Android sends using URI Encode
-            print(decoded)
+            # print(decoded)
             name_image = decoded.split('&')[1].split('=')[1]
-            print('name is : ' + name_image)
+            # print('name is : ' + name_image)
             b64_image = decoded.split('&')[0].split('=')[1]
-            print('Base64 image is : ' + b64_image)
+            # print('Base64 image is : ' + b64_image)
             missing_padding = len(b64_image)%4
             print('Length is : ' + str(len(b64_image)))
             if missing_padding : 
                 b64_image += '='*(4-missing_padding)
-            print('Modified Base64 image is : ' + b64_image)
-            print('New length is : ' + str(len(b64_image)))
+            # print('Modified Base64 image is : ' + b64_image)
+            # print('New length is : ' + str(len(b64_image)))
             image = PIL.Image.open(io.BytesIO(base64.b64decode(b64_image)))
             target_image = image.resize((500,500),PIL.Image.ANTIALIAS)
-            print(type(target_image))
+            # print(type(target_image))
             image_array = np.array(target_image)
             image_file, x1 = predict_image(image_array,name_image)
             # image = PIL.Image.open(io.BytesIO(b64_image))
